@@ -52,8 +52,8 @@ li {
 }
 
 
-input[type=checkbox]{
-    /*display: none;*/
+.navbar input[type=checkbox]{
+    display: none;
    } 
    /*HAMBURGER MENU*/
    .hamburger {
