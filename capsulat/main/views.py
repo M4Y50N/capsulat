@@ -40,8 +40,14 @@ def create(response):
             n = form.cleaned_data["name"]
             t = AlgoPFazer(name=n)
             t.save()
+            response.user.algopfazer.add(t)
 
         return HttpResponseRedirect("/%i" % t.id)
     else:
         form = CreateNewList()
     return render(response, "main/create.html", {"form": form})
+
+
+def view(response):
+    allF = AlgoPFazer.objects.all()
+    return render(response, "main/view.html", {"list": allF})

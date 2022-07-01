@@ -1,0 +1,17 @@
+{% extends 'main/base.html' %}
+
+
+{% block title %}
+    Capsulat - Register  
+{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <h1>Registro</h1>   
+    <form method="post" class="form-group">
+        {% csrf_token %}
+        {{form|crispy}}
+        <button name="create" type="submit" class="btn btn-success px-3 py-2">Registre-se</button>
+    </form> 
+{% endblock %}

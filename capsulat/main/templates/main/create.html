@@ -5,9 +5,13 @@
 {% endblock %}
 
 {% block content %}
-    <form method="post" action="/create/">
-        {% csrf_token %}
-        {{form.as_p}}  
-        <button type="submit" name="save">Click Here!</button>
-    </form>
+    {% if user.is_authenticated %}
+        <form method="post" action="/create/">
+            {% csrf_token %}
+            {{form.as_p}}  
+            <button type="submit" name="save">Click Here!</button>
+        </form>
+    {% else %}
+        <p><a href="/login">Clique aqui para logar</a></p>
+    {% endif %}
 {% endblock %}

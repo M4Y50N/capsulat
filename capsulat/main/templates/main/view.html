@@ -1,0 +1,18 @@
+{% extends 'main/base.html' %}
+
+{% block title %}View All Lists{% endblock %}
+
+
+{% block content %}
+	{% if user.is_authenticated %}
+		<ul class="list-group">
+		{% for l in list %}
+			{% if l.user_id == user.id %}
+				<li class="list-group-item"><a href="/{{l.id}}"><h3>{{l.name}}</h3></a></li>
+			{% endif %}
+		{% endfor %}
+		</ul>
+	{% else %}
+        <p><a href="/login">Clique aqui para logar</a></p>
+	{% endif %}
+{% endblock %}
