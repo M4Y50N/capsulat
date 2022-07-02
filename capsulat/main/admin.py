@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import AlgoPFazer
+from .models import Sala
 # Register your models here.
 
-admin.site.register(AlgoPFazer)
+admin.site.register(Sala)

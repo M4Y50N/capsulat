@@ -8,8 +8,8 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <h1>Login</h1>  
     <form method="post" class="form-group">
+        <h1>Login</h1>  
         {% csrf_token %}
         {{form|crispy}}
         <button type="submit" class="btn btn-success px-3 py-2">Login</button>

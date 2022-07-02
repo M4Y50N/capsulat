@@ -3,19 +3,19 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 
-class AlgoPFazer(models.Model):
+class Sala(models.Model):
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='algopfazer', null=True)
+        User, on_delete=models.CASCADE, related_name='sala', null=True)
     name = models.CharField(max_length=200)
 
     def __str__(self):
         return self.name
 
 
-class Item(models.Model):
-    AlgoPFazer = models.ForeignKey(AlgoPFazer, on_delete=models.CASCADE)
+class Participante(models.Model):
+    Sala = models.ForeignKey(Sala, on_delete=models.CASCADE)
     text = models.CharField(max_length=300)
-    complete = models.BooleanField()
+    part = models.CharField(max_length=200)
 
     def __str__(self):
         return self.text
