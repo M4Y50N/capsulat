@@ -4,11 +4,13 @@
         Capsulat - Create 
 {% endblock %}
 
+{% load crispy_forms_tags %}
+
 {% block content %}
     {% if user.is_authenticated %}
-        <form method="post" action="/create/">
+        <form method="post" class="form-group" action="/create/">
             {% csrf_token %}
-            {{form.as_p}}  
+            {{form|crispy}}  
             <button type="submit" name="save">Click Here!</button>
         </form>
     {% else %}
