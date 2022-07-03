@@ -9,18 +9,14 @@ def index(response, id):
     ls = Sala.objects.get(id=id)
 
     if response.method == "POST":
-        if response.POST.get('save'):
-            print(response.POST)
-            for item in ls.participante_set.all():
-                if response.POST.get("c" + str(item.id)) == "clicked":
-                    pass
-                else:
-                    pass
-                item.save()
-        elif response.POST.get('newItem'):
+        if response.POST.get('newItem'):
             txt = response.POST.get('new')
 
-            ls.participante_set.create(text=txt)
+            if len(txt) > 2:
+                ls.participante_set.create(
+                    text=txt, part=response.POST.get("newItem"))
+            else:
+                print("invalid")
 
     return render(response, "main/turma.html", {"ls": ls})
 
@@ -47,4 +43,12 @@ def create(response):
 
 def view(response):
     allF = Sala.objects.all()
+
+    if response.method == 'POST':
+        if response.POST.get('chaveSubmit'):
+            if response.POST.get('chave'):
+                for d in allF:
+                    if d.chave == response.POST.get('chave'):
+                        return HttpResponseRedirect("/%i" % d.id)
+
     return render(response, "main/view.html", {"list": allF})

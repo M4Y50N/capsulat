@@ -5,11 +5,16 @@
 
 {% block content %}
 	{% if user.is_authenticated %}
+		<form action="" method="post">
+			{% csrf_token %}
+			<input type="text" class="form-control" name="chave">
+			<input type="submit" value="chaveSubmit" name="chaveSubmit" class="form-control mb-2">
+		</form>
 		<ul class="list-group">
 		{% for l in list %}
-			<!-- {% if l.user_id == user.id %} -->
+			{% if l.user_id == user.id %} 
 				<li class="list-group-item"><a href="/{{l.id}}"><h3>{{l.name}}</h3></a></li>
-			<!-- {% endif %} -->
+			{% endif %}
 		{% endfor %}
 		</ul>
 	{% else %}

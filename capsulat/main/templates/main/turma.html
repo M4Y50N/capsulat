@@ -14,8 +14,7 @@
                     <li>{{item.text}}</li>            
                 {% endfor %}
             </ul>
-            <button class="btn btn-success my-2" type="submit" name="save" value="save">Save</button>
-            <textarea class="form-control" type="text" name="new"></textarea>
-            <button class="btn btn-success my-2" type="submit" name="newItem" value="newItem">Add Item</button>
+            <textarea class="form-control" type="text" name="new" placeholder="Digite sua mensagem.." ></textarea>
+            <button class="btn btn-success my-2" type="submit" name="newItem" value="{{user}}">Add Item</button>
         </form>
 {% endblock %}
