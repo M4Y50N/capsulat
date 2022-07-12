@@ -1,11 +1,93 @@
 {% extends 'main.html' %}
 
 {% block content %}
-    <h1>Home Page</h1>
+    <style>
+        /* *{
+            margin: 0px;
+            padding: 0px;
 
-    <div>
-        {% for room in rooms %}
-            <div><h3>{{room.id}} - <a href="{% url 'room' room.id%}">{{room.name}}</a> </h3></div>
-        {% endfor %}
+            box-sizing: border-box;
+        } */
+
+        body{
+            background-color: aliceblue;
+        }
+
+        .home-content{
+            display: flex;
+            height: calc(100vh - 120px);
+        }
+
+        .home-side-left{
+            background-color: white;
+            padding: 10px 5px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .profile{
+            padding: 20px 0px;
+        }
+
+        .side-left-options ul{
+            list-style: none;
+        }
+
+        .options{
+            padding: 20px 0px;
+        }
+
+        .configs{
+            padding: 20px 0px;
+        }
+    </style>
+
+    <div class="home-content">
+
+        <div class="home-side-left">
+            <div class="profile">
+                <div>Profile</div>
+            </div>
+            <div class="side-left-options">
+                <ul class="options">
+                    <li> <a href="{% url 'home' %}">Home</a></li>
+                    
+                    <li> <a href="{% url 'home' %}?q=periodo">Periodo</a></li>
+                </ul>
+            </div>
+            <div class="configs">
+                <div>settings</div>
+                <div>logout</div>
+            </div>
+        </div>
+        
+        <div> 
+            <a href="{% url 'create-room' %}">Create Room</a>
+            <p>-</p>
+            <div>
+                {% if q != 'periodo' %} 
+                    <h3>{{room_count}} Turmas disponíveis</h3>
+                    {% for room in rooms %}
+                        <div>
+                            <a href="{% url 'update-room' room.id%}">Edit</a>
+                            <a href="{% url 'delete-room' room.id%}">Delete</a>
+                            <span>@{{room.host}}</span>
+                            <h3>{{room.id}} - <a href="{% url 'room' room.id%}">{{room.name}}</a> </h3>
+                            <small>{{room.classe}}</small>
+                            <hr>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <h3>{{classes_count}} Períodos disponíveis</h3>
+                    {% for classe in classes %}
+                        <div>
+                            <a href="{% url 'home' %}?q={{classe.name}}">{{classe.name}}</a>
+                        </div>
+                    {% endfor %}       
+                {% endif %}
+            </div>
+        </div>
     </div>
 {% endblock %}
