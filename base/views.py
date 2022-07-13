@@ -11,12 +11,6 @@ from pkg_resources import require
 from .models import Classe, Room, Message
 from .forms import RoomForm
 
-# rooms = [
-#     {'id': 1, 'name': 'Programmer'},
-#     {'id': 2, 'name': 'Python'},
-#     {'id': 3, 'name': 'Django'},
-# ]
-
 
 def loginPage(request):
     page = 'login'
@@ -148,14 +142,17 @@ def createRoom(request):
 def updateRoom(request, pk):
     room = Room.objects.get(id=pk)
     form = RoomForm(instance=room)
-
+    classes = Classe.objects.all()
     if request.method == 'POST':
-        form = RoomForm(request.POST, instance=room)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
+        classe_name = request.POST.get('classe')
+        classe, created = Classe.objects.get_or_create(name=classe_name)
+        room.name = request.POST.get('name')
+        room.classe = classe
+        room.desc = request.POST.get('desc')
+        room.save()
+        return redirect('home')
 
-    context = {'form': form}
+    context = {'form': form, 'room': room, 'classes': classes}
     return render(request, 'base/room_form.html', context)
 
 
@@ -172,10 +169,6 @@ def deleteRoom(request, pk):
 @login_required(login_url='login')
 def deleteMessage(request, pk):
     message = Message.objects.get(id=pk)
-    # user = User.objects.get(id=pk)
-    # room = message
-    # rooms = user.room_set.all()
-    # room_messages = user.message_set.all()
 
     if request.method == 'POST':
         message.delete()
