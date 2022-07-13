@@ -1,3 +1,4 @@
+from cgitb import reset
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -73,24 +74,27 @@ def home(request):
 
     classes = Classe.objects.all()
     room_count = rooms.count()
-    classes_count = classes.count()
+
+    room_messages = Message.objects.filter(Q(room__classe__name__icontains=q))
 
     context = {'rooms': rooms, 'classes': classes,
-               'q': q, 'room_count': room_count, 'classes_count': classes_count}
+               'q': q, 'room_count': room_count, 'room_messages': room_messages}
     return render(request, 'base/home.html', context)
 
 
 def room(request, pk):
     room = Room.objects.get(id=pk)
     room_messages = room.message_set.all().order_by('-created')
-
+    participantes = room.participants.all()
     if request.method == 'POST':
         message = Message.objects.create(
             user=request.user, room=room, body=request.POST.get('body')
         )
+        room.participants.add(request.user)
         return redirect('room', pk=room.id)
 
-    context = {'room': room, 'room_messages': room_messages}
+    context = {'room': room, 'room_messages': room_messages,
+               'participantes': participantes}
     return render(request, 'base/room.html', context)
 
 
@@ -130,3 +134,16 @@ def deleteRoom(request, pk):
         room.delete()
         return redirect('home')
     return render(request, 'base/delete.html', {'obj': room})
+
+
+@login_required(login_url='login')
+def deleteMessage(request, pk):
+    message = Message.objects.get(id=pk)
+    room = Room.objects.filter(message=message)
+
+    if request.method == 'POST':
+        message.delete()
+        return redirect('room', room[0].id)
+
+    context = {'obj': message}
+    return render(request, 'base/delete.html', context)

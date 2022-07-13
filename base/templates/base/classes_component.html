@@ -1,0 +1,6 @@
+<a href="{% url 'home' %}">Todos</a>
+{% for classe in classes %}
+    <div>
+        <a href="{% url 'home' %}?q={{classe.name}}">{{classe.name}}</a>
+    </div>
+{% endfor %}  
