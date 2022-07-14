@@ -32,18 +32,7 @@
             <p>-</p>
             <div>
                 <h3>{{room_count}} Turmas disponíveis</h3>
-                {% for room in rooms %}
-                    <div>
-                        {% if request.user == room.host %}
-                            <a href="{% url 'update-room' room.id%}">Edit</a>
-                            <a href="{% url 'delete-room' room.id%}">Delete</a>
-                        {% endif %}
-                        <span>@{{room.host}}</span>
-                        <h3>{{room.id}} - <a href="{% url 'room' room.id%}">{{room.name}}</a> </h3>
-                        <small>{{room.classe}}</small>
-                        <hr>
-                    </div>
-                {% endfor %}
+                {% include 'base/feed_component.html' %}
             </div>
         </div>
 

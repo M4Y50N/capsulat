@@ -1,4 +1,5 @@
 from cgitb import reset
+from multiprocessing import context
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -6,6 +7,7 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
+from pkg_resources import require
 from .models import Classe, Room, Message
 from .forms import RoomForm
 
@@ -96,6 +98,16 @@ def room(request, pk):
     context = {'room': room, 'room_messages': room_messages,
                'participantes': participantes}
     return render(request, 'base/room.html', context)
+
+
+def userProfile(request, pk):
+    user = User.objects.get(id=pk)
+    rooms = user.room_set.all()
+    room_messages = user.message_set.all()
+    classes = Classe.objects.all()
+    context = {'user': user, 'rooms': rooms,
+               'room_messages': room_messages, 'classes': classes}
+    return render(request, 'base/profile.html', context)
 
 
 @login_required(login_url='login')
