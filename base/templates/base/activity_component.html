@@ -1,9 +1,16 @@
-<h3>Atividade Recente</h3>
-<hr>
-{% for message in room_messages %}
-    <div>
-        <small><a href="{% url 'user-profile' message.user.id%}">@{{message.user}}  </a> {{message.created}}</small>
-        <small>Respondido em "{{message.room}}"</small>
-        <p>{{message.body}}</p>
-    </div>
-{% endfor %}
+<style>
+    .recent-container{
+        padding: 30px 20px 0px 0px;
+    }
+</style>
+<div class="recent-container">
+    <h3>Atividade Recente</h3>
+    <hr>
+    {% for message in room_messages %}
+        <div>
+            <small><a href="{% url 'user-profile' message.user.id%}">@{{message.user}}  </a> {{message.created}}</small>
+            <small>Respondido em "{{message.room}}"</small>
+            <p>{{message.body}}</p>
+        </div>
+    {% endfor %}
+</div>

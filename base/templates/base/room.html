@@ -28,14 +28,13 @@
                     <p>{{message.body}}</p>
                 </div>
             {% endfor %}
-            {% if request.user.is_authenticated %}
-                <div class="comment-form">
-                    <form action="" method="post"> 
-                        {% csrf_token %}
-                        <input type="text" name="body" placeholder="Escreva sua menssagem aqui...">
-                    </form>
-                </div>
-            {% endif %}
+
+            <div class="comment-form">
+                <form action="" method="post"> 
+                    {% csrf_token %}
+                    <input type="text" name="body" placeholder="Escreva sua menssagem aqui...">
+                </form>
+            </div>
         </div>
     </div>
     <div>

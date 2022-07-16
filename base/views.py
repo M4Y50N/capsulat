@@ -69,6 +69,7 @@ def registerPage(request):
 
 
 def home(request):
+
     q = request.GET.get('q') if request.GET.get(
         'q') != None else ''
     rooms = Room.objects.filter(Q(classe__name__icontains=q) | Q(
@@ -77,7 +78,8 @@ def home(request):
     classes = Classe.objects.all()
     room_count = rooms.count()
 
-    room_messages = Message.objects.filter(Q(room__classe__name__icontains=q))
+    room_messages = Message.objects.filter(
+        Q(room__classe__name__icontains=q)).order_by('-created')
 
     context = {'rooms': rooms, 'classes': classes,
                'q': q, 'room_count': room_count, 'room_messages': room_messages}
@@ -85,6 +87,9 @@ def home(request):
 
 
 def room(request, pk):
+    if not(request.user.is_authenticated):
+        return redirect('login')
+
     room = Room.objects.get(id=pk)
     room_messages = room.message_set.all().order_by('-created')
     participantes = room.participants.all()
