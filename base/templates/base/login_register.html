@@ -1,34 +1,37 @@
 {% extends 'main.html' %}
 
 {% block content %}
-    {% if page == 'login' %}
-        <div>
-            <form action="" method="POST">
-                {% csrf_token %}
+    <div class="main-container py-5">
+        {% if page == 'login' %}
+            <div>
+                <form action="" method="POST">
+                    {% csrf_token %}
 
-                <label>Usuário</label>
-                <input type="text" name="username" placeholder="Usuário">
-                
-                <label>Senha</label>
-                <input type="password" name="password" placeholder="Senha">
-                
-                <input type="submit" value="Login">
-            </form>
+                    <label>Usuário</label>
+                    <input type="text" name="username" placeholder="Usuário">
+                    
+                    <label>Senha</label>
+                    <input type="password" name="password" placeholder="Senha">
+                    
+                    <input type="submit" value="Login">
+                </form>
 
-            <p>Ainda não possui conta?</p>
-            <a href="{% url 'register' %}">Crie sua conta!</a>
-        </div>
-    {% else %}
-        <div>
-            <form action="" method="POST">
-                {% csrf_token %}    
-                {{form.as_p}}        
-                <input type="submit" value="Register">
-            </form>
+                <p>Ainda não possui conta?</p>
+                <a href="{% url 'register' %}">Crie sua conta!</a>
+            </div>
+        {% else %}
+            <div>
+                <form action="" method="POST">
+                    {% csrf_token %}    
+                    {{form.as_p}}        
+                    <input type="submit" value="Register">
+                </form>
 
-            <p>Já possui uma conta?</p>
-            <a href="{% url 'login' %}">Faça o login!</a>
-        </div>
-    {% endif %}
+                <p>Já possui uma conta?</p>
+                <a href="{% url 'login' %}">Faça o login!</a>
+            </div>
+        {% endif %}
+    </div>
+
     
 {% endblock content %}

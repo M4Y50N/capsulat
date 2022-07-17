@@ -18,9 +18,10 @@
     <!-- Theme CSS -->  
     <link id="theme-style" rel="stylesheet" href="{% static 'styles/style.css' %}">
 
-    <!-- <link rel="stylesheet" href="{% static 'styles/main.css' %}"> -->
+    <link rel="stylesheet" href="{% static 'styles/main.css' %}">
 </head>
 <body>
+    {% include 'navbar.html' %}
     <!-- não sei pq eu adicionei isso aqui -->
     <!-- {% if messages %}
         <ul class="messages">

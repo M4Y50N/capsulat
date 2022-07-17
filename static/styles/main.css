@@ -1,3 +1,9 @@
-body{
-    background-color: whitesmoke;
+.main-container{
+    min-height: calc(100vh - 40px);
+    padding: 48px;
+}
+
+.main-2-column{
+    display: grid;
+	grid-template-columns: 3fr 1.5fr;
 }

@@ -1,16 +1,7 @@
 {% extends 'main.html' %}
 
 {% block content%}
-    <style>
-        .profile-container{
-            display: grid;
-            grid-template-columns: 3fr 1fr;
-        }
-    </style>
-
-    <h2>{{user}}</h2>
-
-    <div class="profile-container">
+    <div class="main-2-column">
         <div>
             {% include 'base/feed_component.html' %}
         </div>

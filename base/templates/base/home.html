@@ -1,11 +1,5 @@
 {% extends 'main.html' %}
 {% block content %}
-	<style>
-		.home-container{
-			display: grid;
-			grid-template-columns: 2fr 1fr;
-		}
-	</style>
 	<!-- New Login fomr -->
 	<!-- <section class="cta-section theme-bg-light py-5">
 		<div class="container text-center">
@@ -21,15 +15,18 @@
 		</div>//container
 	</section> 
 	-->
-	<div>
-		{% include 'navbar.html' %}
-	</div>
-	<div class="home-container">
-		<div> 
-			<a href="{% url 'create-room' %}">Create Room</a>
-			<p>-</p>
+	
+	<div class="main-2-column">
+		<div class="mt-4"> 
+			<div class="m-2 my-md-3 d-flex justify-content-center align-items-center">
+				<form action="" method="get">
+					<input type="text" name="q" placeholder="Pesquise uma turma...">
+				</form>
+				<p class="mx-4 my-2">Ou crie a sua</p>
+				<a class="btn btn-primary" href="{% url 'create-room' %}">Criar Sala</a>
+			</div>
 			<div>
-				<h3>{{room_count}} Turmas disponíveis</h3>
+				<h3 class="pl-5 pt-3">{{room_count}} Turmas disponíveis</h3>
 				{% include 'base/feed_component.html' %}
 			</div>
 		</div>

@@ -106,6 +106,9 @@ def room(request, pk):
 
 
 def userProfile(request, pk):
+    if not(request.user.is_authenticated):
+        return redirect('login')
+
     user = User.objects.get(id=pk)
     rooms = user.room_set.all()
     room_messages = user.message_set.all()
