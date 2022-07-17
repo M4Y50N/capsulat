@@ -86,9 +86,8 @@ def home(request):
     return render(request, 'base/home.html', context)
 
 
+@login_required(login_url='login')
 def room(request, pk):
-    if not(request.user.is_authenticated):
-        return redirect('login')
 
     room = Room.objects.get(id=pk)
     room_messages = room.message_set.all().order_by('-created')
@@ -105,10 +104,8 @@ def room(request, pk):
     return render(request, 'base/room.html', context)
 
 
+@login_required(login_url='login')
 def userProfile(request, pk):
-    if not(request.user.is_authenticated):
-        return redirect('login')
-
     user = User.objects.get(id=pk)
     rooms = user.room_set.all()
     room_messages = user.message_set.all()
@@ -161,11 +158,14 @@ def deleteRoom(request, pk):
 @login_required(login_url='login')
 def deleteMessage(request, pk):
     message = Message.objects.get(id=pk)
-    room = Room.objects.filter(message=message)
+    # user = User.objects.get(id=pk)
+    # room = message
+    # rooms = user.room_set.all()
+    # room_messages = user.message_set.all()
 
     if request.method == 'POST':
         message.delete()
-        return redirect('room', room[0].id)
+        return redirect('room', message.room_id)
 
     context = {'obj': message}
     return render(request, 'base/delete.html', context)

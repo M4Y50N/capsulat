@@ -1,51 +1,47 @@
 {% extends 'main.html' %}
-
-
+<!-- start block -->
 {% block content %}
-<style>
-    .room-container{
-        display: grid;
-        grid-template-columns: 3fr 1fr;
-    }
-</style>
-
 
 <div class="main-container main-2-column">
-    <div>
-        <h1>Room - {{room.name}}</h1>
-        <p>{{room.desc}}</p>
-        
-        <div class="comment-wrapper">
-            <h3>Menssagens</h3>
-            <hr>
-            
-            {% for message in room_messages %}
-                <div>
-                    {% if request.user == message.user %}
-                        <a href="{% url 'delete-message' message.id %}">Delete</a>
-                    {% endif %}
-                    <small>@{{message.user}} {{message.created}}</small>
-                    <p>{{message.body}}</p>
-                </div>
-            {% endfor %}
+	<div class="comment-container">
+		<div>
+			<h2>Room - {{room.name}}</h2>
+			<p>{{room.desc}}</p>
 
-            <div class="comment-form">
-                <form action="" method="post"> 
-                    {% csrf_token %}
-                    <input type="text" name="body" placeholder="Escreva sua menssagem aqui...">
-                </form>
-            </div>
-        </div>
-    </div>
-    <div>
-        <h3>Participantes</h3>
-        <hr>
-        {% for user in participantes %}
-            <div>
-                <p>@{{user.username}}</p>
-            </div>
-        {% endfor %}
-    </div>
+			<h3>Menssagens</h3>
+		</div>
+		<div class="comment-wrapper p-3 mr-2">
+			<div>
+				{% for message in room_messages %}
+				<div>
+					{% if request.user == message.user %}
+					<a href="{% url 'delete-message' message.id %}">Delete</a>
+					{% endif %}
+					<small>@{{message.user}} {{message.created}}</small>
+					<p>{{message.body}}</p>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+		<div class="comment-form mt-3">
+			<form action="" method="post">
+				{% csrf_token %}
+				<input
+					type="text"
+					name="body"
+					placeholder="Escreva sua menssagem aqui..."
+				/>
+			</form>
+		</div>
+	</div>
+	<div>
+		<h3>Participantes</h3>
+		<hr />
+		{% for user in participantes %}
+		<div>
+			<p>@{{user.username}}</p>
+		</div>
+		{% endfor %}
+	</div>
 </div>
 {% endblock %}
-    

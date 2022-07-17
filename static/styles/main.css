@@ -1,9 +1,17 @@
-.main-container{
-    min-height: calc(100vh - 40px);
-    padding: 48px;
+.main-container {
+	height: 100vh;
+	max-height: calc(100vh - 40px);
+	padding: 48px;
 }
 
-.main-2-column{
-    display: grid;
+.main-2-column {
+	display: grid;
 	grid-template-columns: 3fr 1.5fr;
+}
+
+.comment-wrapper {
+	overflow-y: scroll;
+	background-color: whitesmoke;
+	min-height: 430px;
+	max-height: 430px;
 }
