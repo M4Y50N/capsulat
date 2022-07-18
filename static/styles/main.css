@@ -1,7 +1,11 @@
 .main-container {
-	height: 100vh;
-	max-height: calc(100vh - 40px);
+	min-height: calc(100vh - 40px) !important;
 	padding: 48px;
+
+}
+
+.over-y{
+	overflow-y: hidden !important;
 }
 
 .main-2-column {
@@ -10,7 +14,7 @@
 }
 
 .comment-wrapper {
-	overflow-y: scroll;
+	overflow-y: auto;
 	background-color: whitesmoke;
 	min-height: 430px;
 	max-height: 430px;

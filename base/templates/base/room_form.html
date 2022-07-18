@@ -5,8 +5,32 @@
     <div class="main-container">
         <form action="" method="post">
             {% csrf_token %}
-            {{form.as_p}}
-            <input type="submit" value="Submit">
+
+            <div class="form__group">
+                <label for="room_classe">Entre ou crie uma classe</label>
+                <input required type="text" value="{{room.classe.name}}" name="classe" list="classe-list" />
+                <datalist id="classe-list">
+                  <select id="room_classe">
+                    {% for classe in classes %}
+                    <option value="{{classe.name}}">{{classe.name}}</option>
+                    {% endfor %}
+                  </select>
+                </datalist>
+              </div>
+              <div class="form__group">
+                <label for="room_name">Room Name</label>
+                {{form.name}}
+              </div>
+    
+              <div class="form__group">
+                <label for="room_description">Room Description</label>
+                {{form.desc}}
+              </div>
+
+              <div class="form__action">
+                <a class="btn btn--dark" href="{{request.META.HTTP_REFERER}}">Cancel</a>
+                <button class="btn btn--main" type="submit">Submit</button>
+              </div>
         </form>
     </div>
 

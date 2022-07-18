@@ -81,8 +81,11 @@ def home(request):
     room_messages = Message.objects.filter(
         Q(room__classe__name__icontains=q)).order_by('-created')
 
+    recent_activity = room_messages[:6]
+
     context = {'rooms': rooms, 'classes': classes,
-               'q': q, 'room_count': room_count, 'room_messages': room_messages}
+               'q': q, 'room_count': room_count, 'room_messages': room_messages,
+               'recent_activity': recent_activity}
     return render(request, 'base/home.html', context)
 
 
@@ -107,26 +110,37 @@ def room(request, pk):
 @login_required(login_url='login')
 def userProfile(request, pk):
     user = User.objects.get(id=pk)
+
     rooms = user.room_set.all()
-    room_messages = user.message_set.all()
+    room_messages = user.message_set.all().order_by('-created')
+
     classes = Classe.objects.all()
+
+    recent_activity = room_messages[:6]
+
     context = {'user': user, 'rooms': rooms,
-               'room_messages': room_messages, 'classes': classes}
+               'room_messages': room_messages, 'classes': classes, 'recent_activity': recent_activity}
     return render(request, 'base/profile.html', context)
 
 
 @login_required(login_url='login')
 def createRoom(request):
     form = RoomForm()
+    classes = Classe.objects.all()
     if request.method == 'POST':
-        form = RoomForm(request.POST)
-        if form.is_valid():
-            room = form.save(commit=False)
-            room.host = request.user
-            room.save()
-            return redirect('home')
+        classe_name = request.POST.get('classe')
+        classe, created = Classe.objects.get_or_create(name=classe_name)
 
-    context = {'form': form}
+        Room.objects.create(
+            host=request.user,
+            classe=classe,
+            name=request.POST.get('name'),
+            desc=request.POST.get('desc'),
+        )
+
+        return redirect('home')
+
+    context = {'form': form, 'classes': classes}
     return render(request, 'base/room_form.html', context)
 
 
