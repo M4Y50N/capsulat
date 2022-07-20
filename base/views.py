@@ -1,5 +1,3 @@
-from cgitb import reset
-from multiprocessing import context
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -7,7 +5,6 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
-from pkg_resources import require
 from .models import Classe, Room, Message
 from .forms import RoomForm
 
@@ -79,7 +76,8 @@ def home(request):
     room_count = rooms.count()
 
     room_messages = Message.objects.filter(
-        Q(room__classe__name__icontains=q)).order_by('-created')
+        Q(room__classe__name__icontains=q) | Q(
+            room__name__icontains=q)).order_by('-created')
 
     recent_activity = room_messages[:6]
 
@@ -148,6 +146,7 @@ def createRoom(request):
 def updateRoom(request, pk):
     room = Room.objects.get(id=pk)
     form = RoomForm(instance=room)
+    classes = Classe.objects.all()
 
     if request.method == 'POST':
         form = RoomForm(request.POST, instance=room)
@@ -155,7 +154,7 @@ def updateRoom(request, pk):
             form.save()
             return redirect('home')
 
-    context = {'form': form}
+    context = {'form': form, 'classes': classes}
     return render(request, 'base/room_form.html', context)
 
 
