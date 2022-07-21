@@ -12,7 +12,7 @@
 	<div>
 		<small
 			><a href="{% url 'user-profile' message.user.id%}">@{{message.user}} </a>
-			{{message.created|naturaltime}}</small
+			{{message.created_in}}</small
 		>
 		<small>Respondido em "{{message.room}}"</small>
 		<p>{{message.body|truncatechars:50}}</p>

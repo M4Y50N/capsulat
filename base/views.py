@@ -24,7 +24,7 @@ def timesince(dt, default="agora"):
         (diff.days, "dia", "dias"),
         (diff.seconds // 3600, "hora", "horas"),
         (diff.seconds // 60, "minuto", "minutos"),
-        (diff.seconds, "segundo", "segundos"),
+        (diff.seconds - 30, "segundo", "segundos"),
     )
     for period, singular, plural in periods:
         if period >= 1:

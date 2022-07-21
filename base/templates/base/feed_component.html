@@ -19,7 +19,7 @@
                             <span class="time">
                             {% for m in room.message_set.all %}
                                 {% if forloop.last %}
-                                {{m.created|naturaltime}}
+                                {{m.created_in}}
                                 {% endif %}
                             {% endfor%}
                             </span>
