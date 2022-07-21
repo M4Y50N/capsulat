@@ -1,3 +1,4 @@
+from threading import local
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -8,31 +9,55 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Classe, Room, Message
 from .forms import RoomForm
 
-from datetime import datetime
+from datetime import datetime, timedelta
+from tzlocal import get_localzone
 from pytz import timezone
 
 
+def timesince(dt, default="agora"):
+    now = datetime.now()
+    diff = now - dt
+    periods = (
+        (diff.days // 365, "ano", "anos"),
+        (diff.days // 30, "mês", "meses"),
+        (diff.days // 7, "semana", "semanas"),
+        (diff.days, "dia", "dias"),
+        (diff.seconds // 3600, "hora", "horas"),
+        (diff.seconds // 60, "minuto", "minutos"),
+        (diff.seconds, "segundo", "segundos"),
+    )
+    for period, singular, plural in periods:
+        if period >= 1:
+            return "%d %s atrás" % (period, singular if period == 1 else plural)
+    return default
+
 # Função para calcular a hora que foi criado a Room/Classe/Message
-def howLongAgo():
-    wasCreated = Room.objects.get(name='Matemática discreta').created
-
-    fuso_horario = timezone('America/Sao_Paulo')
-
-    data_e_hora_sao_paulo = wasCreated.astimezone(fuso_horario)
-    wasCreated_format = data_e_hora_sao_paulo.strftime(
-        "%d/%m/%Y %H:%M")
-
-    data_created, hour_created = wasCreated_format.split(' ')
-
-    data_now = datetime.now()
-    data_now_format = data_now.strftime("%d/%m/%Y %H:%M")
-
-    data_dmy, data_hm = data_now_format.split(' ')
-
-    print(data_dmy, data_hm, "dasdas")
 
 
-howLongAgo()
+def howLongAgo(datas):
+    for data in datas:
+        wasCreated = data.created
+        fuso_horario = timezone('America/Sao_Paulo')
+
+        data_e_hora_sao_paulo = wasCreated.astimezone(fuso_horario)
+        wasCreated_format = data_e_hora_sao_paulo.strftime(
+            "%d/%m/%Y %H:%M")
+
+        data_created, hour_created = wasCreated_format.split(' ')
+
+        data_created = data_created + " " + hour_created
+
+        # dia mes ano
+        d = int(data_created.split('/')[0])
+        m = int(data_created.split('/')[1])
+        y = int(data_created.split('/')[2].split(' ')[0])
+
+        # hora minuto
+        h = int(hour_created.split(':')[0])
+        mi = int(hour_created.split(':')[1])
+
+        data.created_in = timesince(datetime(y, m, d, h, mi, 0))
+        data.save()
 
 
 def loginPage(request):
@@ -90,7 +115,9 @@ def home(request):
     q = request.GET.get('q') if request.GET.get(
         'q') != None else ''
     rooms = Room.objects.filter(Q(classe__name__icontains=q) | Q(
-        name__icontains=q) | Q(desc__icontains=q))
+        name__icontains=q) | Q(desc__icontains=q)).order_by('-created')
+
+    howLongAgo(rooms)
 
     classes = Classe.objects.all()
     room_count = rooms.count()
@@ -98,6 +125,8 @@ def home(request):
     room_messages = Message.objects.filter(
         Q(room__classe__name__icontains=q) | Q(
             room__name__icontains=q)).order_by('-created')
+
+    howLongAgo(room_messages)
 
     recent_activity = room_messages[:6]
 
