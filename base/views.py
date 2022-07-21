@@ -9,6 +9,11 @@ from .models import Classe, Room, Message
 from .forms import RoomForm
 
 
+# Função para calcular a hora que foi criado a Room/Classe/Message
+def howLongAgo():
+    pass
+
+
 def loginPage(request):
     page = 'login'
     if request.user.is_authenticated:
