@@ -8,10 +8,31 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Classe, Room, Message
 from .forms import RoomForm
 
+from datetime import datetime
+from pytz import timezone
+
 
 # Função para calcular a hora que foi criado a Room/Classe/Message
 def howLongAgo():
-    pass
+    wasCreated = Room.objects.get(name='Matemática discreta').created
+
+    fuso_horario = timezone('America/Sao_Paulo')
+
+    data_e_hora_sao_paulo = wasCreated.astimezone(fuso_horario)
+    wasCreated_format = data_e_hora_sao_paulo.strftime(
+        "%d/%m/%Y %H:%M")
+
+    data_created, hour_created = wasCreated_format.split(' ')
+
+    data_now = datetime.now()
+    data_now_format = data_now.strftime("%d/%m/%Y %H:%M")
+
+    data_dmy, data_hm = data_now_format.split(' ')
+
+    print(data_dmy, data_hm, "dasdas")
+
+
+howLongAgo()
 
 
 def loginPage(request):
