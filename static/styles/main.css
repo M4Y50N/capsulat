@@ -19,3 +19,64 @@
 	min-height: 430px;
 	max-height: 430px;
 }
+
+
+.search-bar{
+	padding: 50px 0px;
+	background-color: whitesmoke !important; 
+}
+
+
+.form__group {
+	margin-bottom: 2rem;
+	width: 100%;
+  }
+  
+.form__split {
+	display: flex;
+	gap: 1.5rem;
+}
+
+.form__group label {
+	display: block;
+	font-size: 1.2rem;
+	margin-bottom: 1rem;
+}
+
+.form__group input,
+.form__group textarea,
+.form__group select {
+  background: transparent;
+  padding: 1rem;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: rgb(214, 214, 214);
+  width: 100%;
+  font-weight: 500;
+  outline: none;
+}
+
+.form__group textarea {
+	background: transparent;
+	height: 10rem;
+	resize: none;
+  }
+  
+  .form__group select {
+	font-weight: 400;
+  }
+  
+  .form__group select option {
+	padding: 0 10rem;
+  }
+  
+  .form__action {
+	display: flex;
+	justify-content: flex-end;
+	gap: 1rem;
+  }
+  
+  .form__hide {
+	position: absolute;
+	left: -9999px;
+  }

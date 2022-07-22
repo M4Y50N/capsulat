@@ -1,6 +1,10 @@
-<a href="{% url 'home' %}">Todos</a>
-{% for classe in classes %}
+<div class="container">
+    <h3>Turmas</h3>
+    <hr/>
+    <a href="{% url 'home' %}">Todas</a>
+    {% for classe in classes %}
     <div>
         <a href="{% url 'home' %}?q={{classe.name}}">{{classe.name}}</a>
     </div>
-{% endfor %}  
+    {% endfor %}  
+</div>

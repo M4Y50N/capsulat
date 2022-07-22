@@ -147,6 +147,8 @@ def room(request, pk):
         room.participants.add(request.user)
         return redirect('room', pk=room.id)
 
+    howLongAgo(room_messages)
+
     context = {'room': room, 'room_messages': room_messages,
                'participantes': participantes}
     return render(request, 'base/room.html', context)

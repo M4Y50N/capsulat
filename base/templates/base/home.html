@@ -1,4 +1,6 @@
 {% extends 'main.html' %}
+{% load static %}
+
 {% block content %}
 	<!-- New Login fomr -->
 	<!-- <section class="cta-section theme-bg-light py-5">
@@ -15,22 +17,29 @@
 		</div>//container
 	</section> 
 	-->
-	
+	<link rel="stylesheet" href="{% static 'styles/main.css' %}">
 	<div class="main-2-column">
 		<div class="mt-4"> 
-			<div class="m-2 my-md-3 d-flex justify-content-center align-items-center">
+			<div class="search-bar m-2 my-md-3 d-flex flex-wrap justify-content-center align-items-center">
 				<form action="" method="get">
-					<input type="text" name="q" placeholder="Pesquise uma turma...">
+					<div class="input-group">
+						<input type="text"  name=q class="form-control" placeholder="Pesquise uma turma..." aria-label="Pesquise uma turma..." aria-describedby="basic-addon1">
+						<div class="input-group-prepend">
+						  <input type="submit" class="input-group btn btn-primary" id="basic-addon1" value="Procure">
+						</div>
+					</div>
 				</form>
-				<p class="mx-4 my-2">Ou crie a sua</p>
-				<a class="btn btn-primary" href="{% url 'create-room' %}">Criar Sala</a>
+				<div class="my-3">
+					<p class="mx-4 my-2 d-inline">ou crie a sua</p>
+					<a class="btn btn-primary py-2 px-5" href="{% url 'create-room' %}">Criar Sala</a>
+				</div>
 			</div>
-			<div>
-				<h3 class="pl-5 pt-3">{{room_count}} Turmas disponíveis</h3>
+			<div class="container">
+				<h3 class="pl-5 pt-3">{{room_count}} Salas disponíveis</h3>
 				{% include 'base/feed_component.html' %}
 			</div>
 		</div>
-		<div>
+		<div class="d-flex flex-column">
 			{% include 'base/activity_component.html' %}
 			{% include 'base/classes_component.html' %}
 		</div>
