@@ -1,4 +1,3 @@
-from threading import local
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -9,8 +8,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Classe, Room, Message
 from .forms import RoomForm
 
-from datetime import datetime, timedelta
-from tzlocal import get_localzone
+from datetime import datetime
 from pytz import timezone
 
 
