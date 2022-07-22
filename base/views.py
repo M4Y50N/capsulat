@@ -11,6 +11,8 @@ from .forms import RoomForm
 from datetime import datetime
 from pytz import timezone
 
+dasdasdas = 'dasdas'
+
 
 def timesince(dt, default="agora"):
     now = datetime.now()
