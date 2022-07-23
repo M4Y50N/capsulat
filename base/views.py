@@ -11,6 +11,18 @@ from .forms import RoomForm
 from datetime import datetime
 from pytz import timezone
 
+# Criptografar string
+from simplecrypt import encrypt, decrypt
+
+# chave = 'mayson'
+# menssagem = 'eae galera'
+
+# crypttext = encrypt(chave, menssagem)
+# decrypttext = decrypt(chave, crypttext).decode('utf8')
+
+# print(crypttext, 'divsao', decrypttext)
+
+
 
 def timesince(dt, default="agora"):
     now = datetime.now()
@@ -30,8 +42,6 @@ def timesince(dt, default="agora"):
     return default
 
 # Função para calcular a hora que foi criado a Room/Classe/Message
-
-
 def howLongAgo(datas):
     for data in datas:
         wasCreated = data.created
@@ -57,6 +67,10 @@ def howLongAgo(datas):
         data.created_in = timesince(datetime(y, m, d, h, mi, 0))
         data.save()
 
+#função para criptografar
+def nowCrypDecryp(escolha, msg):
+
+    pass
 
 def loginPage(request):
     page = 'login'
@@ -176,11 +190,13 @@ def createRoom(request):
     classes = Classe.objects.all()
     if request.method == 'POST':
         classe_name = request.POST.get('classe')
+        key_cryp = request.POST.get('key_cryp')
         classe, created = Classe.objects.get_or_create(name=classe_name)
 
         Room.objects.create(
             host=request.user,
             classe=classe,
+            crypt_key=key_cryp,
             name=request.POST.get('name'),
             desc=request.POST.get('desc'),
         )
@@ -201,6 +217,7 @@ def updateRoom(request, pk):
         classe, created = Classe.objects.get_or_create(name=classe_name)
         room.name = request.POST.get('name')
         room.classe = classe
+        room.crypt_key = request.POST.get('crypt_key')
         room.desc = request.POST.get('desc')
         room.save()
         return redirect('home')

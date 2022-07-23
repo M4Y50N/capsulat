@@ -1,5 +1,3 @@
-from ast import Num
-from pyexpat import model
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -23,6 +21,7 @@ class Room(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     created_in = models.TextField(null=True, blank=True)
+    crypt_key = models.CharField(default='capsulat', max_length=23)
 
     class Meta:
         ordering = ['-updated', '-created']
