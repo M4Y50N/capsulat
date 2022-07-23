@@ -12,18 +12,7 @@
 			
 			<h3>Menssagens</h3>
 		</div>
-		{% if user.id == request.user.id %}
-			<form action="" method="post">
-				{% csrf_token %}
-				<div class="my-3">
-					<div>
-						<label for="key_cryp">Digite sua chave para Criptografar ou Descriptografar</label>
-					</div>
-					<input type="text" placeholder="Digite a chave">
-					<input type="submit" value="Enviar">
-				</div>
-			</form>
-		{% endif %}
+		<!-- <a href="{%  %}"></a> -->
 		<div class="comment-wrapper p-3 mr-2">
 			<div>
 				{% for message in room_messages %}
