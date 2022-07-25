@@ -13,7 +13,6 @@
                     <div class="profile-section pt-3 pt-lg-0">
                         <img class="profile-image mb-3 rounded-circle mx-auto" src="{% static 'images/profile.png' %}" alt="image" >			
                         
-                        <!-- <div class="bio mb-3">Hi, my name is Anthony Doe. Briefly introduce yourself here. You can also provide a link to the about page.<br><a href="about.html">Find out more about me</a></div>//bio -->
                         <ul class="social-list list-inline py-3 mx-auto">
                             <li class="list-inline-item"><a href="#"><i class="fab fa-twitter fa-fw"></i></a></li>
                             <li class="list-inline-item"><a href="#"><i class="fab fa-linkedin-in fa-fw"></i></a></li>
@@ -28,12 +27,6 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'home' %}"><i class="fas fa-home fa-fw mr-2"></i>Principal <span class="sr-only">(current)</span></a>
                         </li>
-                        <!-- <li class="nav-item"> 
-                            <a class="nav-link" href=""><i class="fa-solid fa-user mr-2"></i>Perfil</a>
-                        </li> -->
-                        <!-- <li class="nav-item">
-                            <a class="nav-link" href="about.html"><i class="fas fa-user fa-fw mr-2"></i>About Me</a>
-                        </li> -->
                         {% if request.user == user %}
                             <li class="nav-item">
                             <a class="nav-link" href="{% url 'logout' %}"><i class="fa-solid fa-right-from-bracket mr-2"></i>Logout</a>
@@ -41,9 +34,6 @@
                         {% endif %}
                     </ul>
                     
-                    <!-- <div class="my-2 my-md-3">
-                        <a class="btn btn-primary" href="https://themes.3rdwavemedia.com/" target="_blank">Get in Touch</a>
-                    </div> -->
                 </div>
         </nav>
     {% else %}
@@ -62,15 +52,3 @@
     {% endif %}
 
 </header>
-<!-- <form action="{% url 'home' %}" method="get">
-    <input name="q" placeholder="Procurar salas...">
-</form> -->
-
-<!-- {% if request.user.is_authenticated %}
-    <h2>Olá, {{request.user}}</h2>
-    <a href="{% url 'logout' %}">Logout</a>
-{% else %}
-    <a href="{% url 'login' %}">
-        Login
-    </a>
-{% endif %} -->
