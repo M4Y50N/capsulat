@@ -12,7 +12,6 @@ from datetime import datetime
 from pytz import timezone
 
 # Criptografar string
-#test
 from simplecrypt import encrypt, decrypt
 
 
