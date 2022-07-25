@@ -14,6 +14,7 @@ from pytz import timezone
 # Criptografar string
 from simplecrypt import encrypt, decrypt
 
+
 # chave = 'mayson'
 # menssagem = 'eae galera'
 
