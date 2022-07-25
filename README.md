@@ -3,4 +3,6 @@
 Python versão 3.9.2
 Django versão 4.0.6
 
+#capsulat
+
 
