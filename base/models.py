@@ -20,8 +20,8 @@ class Room(models.Model):
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
-    created_in = models.TextField(null=True, blank=True)
-    crypt_key = models.CharField(default='capsulat', max_length=23)
+    created_in = models.TextField(default='capsulat', blank=True)
+    crypt_key = models.CharField(max_length=23)
 
     class Meta:
         ordering = ['-updated', '-created']

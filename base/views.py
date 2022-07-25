@@ -190,13 +190,13 @@ def createRoom(request):
     classes = Classe.objects.all()
     if request.method == 'POST':
         classe_name = request.POST.get('classe')
-        key_cryp = request.POST.get('key_cryp')
+        crypt_key = request.POST.get('crypt_key')
         classe, created = Classe.objects.get_or_create(name=classe_name)
 
         Room.objects.create(
             host=request.user,
             classe=classe,
-            crypt_key=key_cryp,
+            crypt_key=crypt_key,
             name=request.POST.get('name'),
             desc=request.POST.get('desc'),
         )
