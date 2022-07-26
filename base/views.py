@@ -84,9 +84,10 @@ def nowCrypDecryp(request, pk):
                         msg.save()
             else:
                 for msg in room.message_set.all():
-                    c = decrypt(key, eval(msg.body)).decode('utf-8')
-                    msg.body = c
-                    msg.save()
+                    if type(msg.body) == bytes:
+                        c = decrypt(key, eval(msg.body)).decode('utf-8')
+                        msg.body = c
+                        msg.save()
         # else:
         #     messages.error(request, 'Chave inexistente')
 
