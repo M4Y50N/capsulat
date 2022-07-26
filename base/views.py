@@ -159,7 +159,7 @@ def room(request, pk):
         message = Message.objects.create(
             user=request.user, room=room, body=request.POST.get('body')
         )
-        room.participants.add(request.user)
+        
         return redirect('room', pk=room.id)
 
     howLongAgo(room_messages)
@@ -197,6 +197,7 @@ def createRoom(request):
         Room.objects.create(
             host=request.user,
             classe=classe,
+            room_join=request.POST.get('room_join'),
             crypt_key=crypt_key,
             name=request.POST.get('name'),
             desc=request.POST.get('desc'),
@@ -218,6 +219,7 @@ def updateRoom(request, pk):
         classe, created = Classe.objects.get_or_create(name=classe_name)
         room.name = request.POST.get('name')
         room.classe = classe
+        room.room_join=request.POST.get('room_join')
         room.crypt_key = request.POST.get('crypt_key')
         room.desc = request.POST.get('desc')
         room.save()
@@ -235,6 +237,24 @@ def deleteRoom(request, pk):
         room.delete()
         return redirect('home')
     return render(request, 'base/delete.html', {'obj': room})
+
+@login_required(login_url='login')
+def joinRoom(request, pk):
+    room = Room.objects.get(id=pk)
+    participantes = room.participants.all()
+    
+    for p in participantes:
+        if p == request.user:
+            return redirect('room', pk)
+        
+
+    if request.method == 'POST':
+        if room.room_join == request.POST.get('room_join'):
+            room.participants.add(request.user)
+            return redirect('room', pk)
+        else:
+            return redirect('home')
+    return render(request, 'base/join_room.html', {'obj': room})
 
 
 @login_required(login_url='login')

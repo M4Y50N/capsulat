@@ -1,0 +1,11 @@
+{% extends 'main.html' %} {% block content %}
+<div class="main-container">
+	<form action="" method="post">
+		{% csrf_token %}
+		<p>Código para entrar na sala "{{obj}}"</p>
+		<input type="text" name="room_join">
+		<input type="submit" value="Confirm" />
+		<a href="{{request.META.HTTP_REFERER}}">Voltar</a>
+	</form>
+</div>
+{% endblock content %}

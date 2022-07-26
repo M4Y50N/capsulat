@@ -3,7 +3,7 @@ from . import views
 
 urlpatterns = [
     path('profile/<str:pk>', views.userProfile, name="user-profile"),
-    # path('cryp/', views.roomCrypt, name="crypt-now"),
+    path('room-join/<str:pk>', views.joinRoom, name="join"),
     path('login/', views.loginPage, name="login"),
     path('logout/', views.logoutUser, name="logout"),
     path('register/', views.registerPage, name="register"),

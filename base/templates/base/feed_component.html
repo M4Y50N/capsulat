@@ -10,7 +10,17 @@
             <div class="item mb-5">
                 <div class="media">
                     <div class="media-body">
-                        <h3 class="title mb-1"><a href="{% url 'room' room.id%}">{{room.name}}</a></h3>
+                        <h3 class="title mb-1">
+                            <a 
+                                {% if request.user != room.host %}
+                                    href="{% url 'join' room.id%}"
+                                {% else %}
+                                    href="{% url 'room' room.id%}"                
+                                {% endif %}
+                                >
+                                {{room.name}}
+                            </a>
+                        </h3>
                         <small><a href="{% url 'user-profile' room.host.id %}">@{{room.host.username}}</a></small> 
                         
                         <div class="meta mb-1"><span class="date">
@@ -44,10 +54,7 @@
                 </div><!--//media-->
             </div><!--//item-->
             
-            <!-- <nav class="blog-nav nav nav-justified my-5">
-                <a class="nav-link-prev nav-item nav-link d-none rounded-left" href="#">Previous<i class="arrow-prev fas fa-long-arrow-alt-left"></i></a>
-                <a class="nav-link-next nav-item nav-link rounded" href="blog-list.html">Next<i class="arrow-next fas fa-long-arrow-alt-right"></i></a>
-            </nav>				 -->
+        
         {% endfor %}
     </div>
 </section>

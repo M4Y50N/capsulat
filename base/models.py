@@ -14,6 +14,7 @@ class Room(models.Model):
     classe = models.ForeignKey(Classe, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=200)
     desc = models.TextField(null=True, blank=True)
+    room_join = models.CharField(default='room', max_length=20)
     participants = models.ManyToManyField(
         User, related_name='participants', blank=True)
 
