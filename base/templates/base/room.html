@@ -16,15 +16,21 @@
 		</div>
 		<div class="comment-wrapper p-3 mr-2">
 			<div>
-				{% for message in room_messages %}
-				<div>
-					{% if request.user == message.user %}
+				{% if request.user != room.host %}
+					{% for message in room_messages %}
+					<div>
+						{% if request.user == message.user %}
+							<a href="{% url 'delete-message' message.id %}">Delete</a>
+							<small><a href="{% url 'user-profile' message.user.id %}">@{{message.user}}</a> {{message.created_in}}</small>
+							<p>{{message.body}}</p>
+						{% endif %}
+					</div>
+					{% endfor %}
+				{% else %} 	
 					<a href="{% url 'delete-message' message.id %}">Delete</a>
-					{% endif %}
 					<small><a href="{% url 'user-profile' message.user.id %}">@{{message.user}}</a> {{message.created_in}}</small>
-					<p>{{message.body}}</p>
-				</div>
-				{% endfor %}
+					<p>{{message.body}}	
+				{% endif %}
 			</div>
 		</div>
 		<div class="comment-form mt-3">

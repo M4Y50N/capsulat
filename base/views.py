@@ -88,8 +88,7 @@ def nowCrypDecryp(request, pk):
                         c = decrypt(key, eval(msg.body)).decode('utf-8')
                         msg.body = c
                         msg.save()
-        # else:
-        #     messages.error(request, 'Chave inexistente')
+   
 
     return render(request, 'base/cryp_key.html', {'obj': room})
 
@@ -268,16 +267,16 @@ def joinRoom(request, pk):
     for p in participantes:
         if p == request.user:
             room.participants.add(request.user)
-            return redirect('room', pk)
+            return redirect('room', pk=room.id)
     
     if request.user == room.host:
-        return redirect('room', pk)
+        return redirect('room', pk=room.id)
 
 
     if request.method == 'POST':
         if room.room_join == request.POST.get('room_join'):
             room.participants.add(request.user)
-            return redirect('room', pk)
+            return redirect('room', pk=room.id)
         else:
             return redirect('home')
     return render(request, 'base/join_room.html', {'obj': room})
