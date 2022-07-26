@@ -1,0 +1,20 @@
+{% extends 'main.html' %} {% block content %}
+<div class="main-container">
+	<form action="" method="post">
+		{% csrf_token %}
+		<p>Deseja criptografar/descriptografar as menssagens?</p>
+		<div>
+			<label>Chave</label>
+			<input type="text" name="cryp_key" required>
+		</div>
+		<div>
+			<label for="cryp">Criptografar</label>
+			<input type="radio" id="cryp" name="act" value="cryp" checked>
+			<label for="decryp">Descriptografar</label>
+			<input type="radio" id="decryp" name="act" value="decryp">
+		</div>
+		<input type="submit" value="Confirm" />
+		<a href="{{request.META.HTTP_REFERER}}">Voltar</a>
+	</form>
+</div>
+{% endblock content %}

@@ -3,7 +3,7 @@
 	<form action="" method="post">
 		{% csrf_token %}
 		<p>Código para entrar na sala "{{obj}}"</p>
-		<input type="text" name="room_join">
+		<input type="text" name="room_join" required>
 		<input type="submit" value="Confirm" />
 		<a href="{{request.META.HTTP_REFERER}}">Voltar</a>
 	</form>

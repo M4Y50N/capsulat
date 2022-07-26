@@ -14,16 +14,13 @@ from pytz import timezone
 # Criptografar string
 from simplecrypt import encrypt, decrypt
 
+# m = 'mayson'
+# k = Fernet.generate_key()
+# fernet = Fernet(k)
 
-# chave = 'mayson'
-# menssagem = 'eae galera'
+# l = fernet.encrypt(m.encode())
 
-# crypttext = encrypt(chave, menssagem)
-# decrypttext = decrypt(chave, crypttext).decode('utf8')
-
-# print(crypttext, 'divsao', decrypttext)
-
-
+# print(k)
 
 def timesince(dt, default="agora"):
     now = datetime.now()
@@ -68,10 +65,32 @@ def howLongAgo(datas):
         data.created_in = timesince(datetime(y, m, d, h, mi, 0))
         data.save()
 
-#função para criptografar
-def nowCrypDecryp(escolha, msg):
 
-    pass
+#função para criptografar
+@login_required(login_url='login')
+def nowCrypDecryp(request, pk):
+    room = Room.objects.get(id=pk)
+    key = room.crypt_key
+    
+    if request.method == 'POST':
+        input_key = request.POST.get('cryp_key')
+        act = request.POST.get('act')
+        if input_key == room.crypt_key:
+            if act == 'cryp':
+                for msg in room.message_set.all():
+                    c = encrypt(key, msg.body)
+                    msg.body = c
+                    msg.save()
+            else:
+                for msg in room.message_set.all():
+                    c = decrypt(key, eval(msg.body)).decode('utf-8')
+                    msg.body = c
+                    msg.save()
+        # else:
+        #     messages.error(request, 'Chave inexistente')
+
+    return render(request, 'base/cryp_key.html', {'obj': room})
+
 
 def loginPage(request):
     page = 'login'
@@ -159,6 +178,7 @@ def room(request, pk):
         message = Message.objects.create(
             user=request.user, room=room, body=request.POST.get('body')
         )
+        room.participants.add(request.user)
         
         return redirect('room', pk=room.id)
 
@@ -242,11 +262,15 @@ def deleteRoom(request, pk):
 def joinRoom(request, pk):
     room = Room.objects.get(id=pk)
     participantes = room.participants.all()
-    
+
     for p in participantes:
         if p == request.user:
+            room.participants.add(request.user)
             return redirect('room', pk)
-        
+    
+    if request.user == room.host:
+        return redirect('room', pk)
+
 
     if request.method == 'POST':
         if room.room_join == request.POST.get('room_join'):

@@ -11,13 +11,7 @@
                 <div class="media">
                     <div class="media-body">
                         <h3 class="title mb-1">
-                            <a 
-                                {% if request.user != room.host %}
-                                    href="{% url 'join' room.id%}"
-                                {% else %}
-                                    href="{% url 'room' room.id%}"                
-                                {% endif %}
-                                >
+                            <a href="{% url 'join' room.id%}">
                                 {{room.name}}
                             </a>
                         </h3>
