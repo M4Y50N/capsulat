@@ -78,9 +78,10 @@ def nowCrypDecryp(request, pk):
         if input_key == room.crypt_key:
             if act == 'cryp':
                 for msg in room.message_set.all():
-                    c = encrypt(key, msg.body)
-                    msg.body = c
-                    msg.save()
+                    if type(msg.body) != bytes:
+                        c = encrypt(key, msg.body)
+                        msg.body = c
+                        msg.save()
             else:
                 for msg in room.message_set.all():
                     c = decrypt(key, eval(msg.body)).decode('utf-8')
