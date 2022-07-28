@@ -82,12 +82,14 @@ def nowCrypDecryp(request, pk):
                         c = encrypt(key, msg.body)
                         msg.body = c
                         msg.save()
+                return redirect('room', pk=room.id)
             else:
                 for msg in room.message_set.all():
                     if type(msg.body) == bytes:
                         c = decrypt(key, eval(msg.body)).decode('utf-8')
                         msg.body = c
                         msg.save()
+                return redirect('room', pk=room.id)
    
 
     return render(request, 'base/cryp_key.html', {'obj': room})
