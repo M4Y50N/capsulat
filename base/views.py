@@ -78,17 +78,29 @@ def nowCrypDecryp(request, pk):
         if input_key == room.crypt_key:
             if act == 'cryp':
                 for msg in room.message_set.all():
-                    if type(msg.body) != bytes:
-                        c = encrypt(key, msg.body)
-                        msg.body = c
-                        msg.save()
+                    try:
+                        if type(eval(msg.body)) != bytes:
+                            c = encrypt(key, msg.body)
+                            msg.body = c
+                            msg.save()
+                    except:
+                        if type(msg.body) != bytes:
+                            c = encrypt(key, msg.body)
+                            msg.body = c
+                            msg.save()
                 return redirect('room', pk=room.id)
             else:
                 for msg in room.message_set.all():
-                    if type(msg.body) == bytes:
-                        c = decrypt(key, eval(msg.body)).decode('utf-8')
-                        msg.body = c
-                        msg.save()
+                    try:
+                        if type(eval(msg.body)) == bytes:
+                            c = decrypt(key, eval(msg.body)).decode('utf-8')
+                            msg.body = c
+                            msg.save()
+                    except:
+                        if type(msg.body) == bytes:
+                            c = decrypt(key, eval(msg.body)).decode('utf-8')
+                            msg.body = c
+                            msg.save()
                 return redirect('room', pk=room.id)
    
 
