@@ -5,11 +5,11 @@
         <div>
             {% include 'base/feed_component.html' %}
         </div>
-
-        <div>
-            {% include 'base/activity_component.html' %}
-
-        </div>
+        {% if user == request.user %}
+            <div>
+                {% include 'base/activity_component.html' %}
+            </div>
+        {% endif %}
     </div>
     
 {% endblock content %}

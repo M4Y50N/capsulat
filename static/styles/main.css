@@ -3,6 +3,10 @@
 	padding: 48px;
 }
 
+.content{
+	width: 500px;
+}
+
 .over-y {
 	overflow-y: hidden !important;
 }
@@ -10,6 +14,15 @@
 .main-2-column {
 	display: grid;
 	grid-template-columns: 3fr 1.5fr;
+}
+
+.comment-form{
+	width: 400px;
+	padding: 10px 20px;
+
+	outline: none;
+	border: 1px solid rgba(78, 78, 78, 0.568);
+	border-radius: 3px;
 }
 
 .comment-wrapper {
@@ -22,6 +35,15 @@
 .search-bar {
 	padding: 50px 0px;
 	background-color: whitesmoke !important;
+}
+
+.join-form{
+	width: 400px;
+	padding: 10px 20px;
+
+	outline: none;
+	border: 1px solid rgba(78, 78, 78, 0.568);
+	border-radius: 3px;
 }
 
 .form__group {

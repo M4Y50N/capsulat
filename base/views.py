@@ -78,18 +78,31 @@ def nowCrypDecryp(request, pk):
         if input_key == room.crypt_key:
             if act == 'cryp':
                 for msg in room.message_set.all():
-                    if type(msg.body) != bytes:
-                        c = encrypt(key, msg.body)
-                        msg.body = c
-                        msg.save()
+                    try:
+                        if type(eval(msg.body)) != bytes:
+                            c = encrypt(key, msg.body)
+                            msg.body = c
+                            msg.save()
+                    except:
+                        if type(msg.body) != bytes:
+                            c = encrypt(key, msg.body)
+                            msg.body = c
+                            msg.save()
+                return redirect('room', pk=room.id)
             else:
                 for msg in room.message_set.all():
-                    if type(msg.body) == bytes:
-                        c = decrypt(key, eval(msg.body)).decode('utf-8')
-                        msg.body = c
-                        msg.save()
-        # else:
-        #     messages.error(request, 'Chave inexistente')
+                    try:
+                        if type(eval(msg.body)) == bytes:
+                            c = decrypt(key, eval(msg.body)).decode('utf-8')
+                            msg.body = c
+                            msg.save()
+                    except:
+                        if type(msg.body) == bytes:
+                            c = decrypt(key, eval(msg.body)).decode('utf-8')
+                            msg.body = c
+                            msg.save()
+                return redirect('room', pk=room.id)
+   
 
     return render(request, 'base/cryp_key.html', {'obj': room})
 
@@ -242,7 +255,6 @@ def updateRoom(request, pk):
         room.name = request.POST.get('name')
         room.classe = classe
         room.room_join=request.POST.get('room_join')
-        room.crypt_key = request.POST.get('crypt_key')
         room.desc = request.POST.get('desc')
         room.save()
         return redirect('home')
