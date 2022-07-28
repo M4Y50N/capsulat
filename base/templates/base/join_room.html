@@ -2,10 +2,18 @@
 <div class="main-container">
 	<form action="" method="post">
 		{% csrf_token %}
-		<p>Código para entrar na sala "{{obj}}"</p>
-		<input type="text" name="room_join" required>
-		<input type="submit" value="Confirm" />
-		<a href="{{request.META.HTTP_REFERER}}">Voltar</a>
+		<h4>Código para entrar na sala "{{obj}}"</h4>
+		<div class="m-2 my-md-3">
+			<div class="">
+				<input class="join-form" type="text" name="room_join" placeholder="Digite o código da sala..." required>
+				<div class="mt-3">
+					<input class="btn btn-primary" type="submit" value="Confirm" />
+					<button class="btn btn-secondary">
+						<a class="text-white text-decoration-none href="{{request.META.HTTP_REFERER}}">Voltar</a>
+					</button>	
+				</div>
+			</div>
+		</div>
 	</form>
 </div>
 {% endblock content %}

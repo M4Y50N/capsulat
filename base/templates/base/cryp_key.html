@@ -1,20 +1,30 @@
 {% extends 'main.html' %} {% block content %}
-<div class="main-container">
-	<form action="" method="post">
-		{% csrf_token %}
-		<p>Deseja criptografar/descriptografar as menssagens?</p>
-		<div>
-			<label>Chave</label>
-			<input type="text" name="cryp_key" required>
-		</div>
-		<div>
-			<label for="cryp">Criptografar</label>
-			<input type="radio" id="cryp" name="act" value="cryp" checked>
-			<label for="decryp">Descriptografar</label>
-			<input type="radio" id="decryp" name="act" value="decryp">
-		</div>
-		<input type="submit" value="Confirm" />
-		<a href="{{request.META.HTTP_REFERER}}">Voltar</a>
-	</form>
+<div class="main-container content">
+	<div class="form__group">
+		<form action="" method="post">
+			{% csrf_token %}
+			<h4 class="text-center">Deseja criptografar/descriptografar as menssagens?</h4>
+			
+			<div>
+				<label>Chave</label>
+				<input type="text" name="cryp_key" required>
+			</div>
+			<div class="py-4">
+				<div class="d-flex align-items-center justify-content-between">
+					<span class="m-0" for="cryp">Criptografar</span>
+					<input type="radio" id="cryp" name="act" value="cryp" checked>
+					
+					<label class="m-0" for="decryp">Descriptografar</label>
+					<input type="radio" id="decryp" name="act" value="decryp">
+				</div>
+			</div>
+			<div class="form__action">
+				<input class="btn btn-primary bg-primary" type="submit" value="Confirm" />
+				<button class="btn btn-secondary">
+					<a class="text-white" href="{{request.META.HTTP_REFERER}}">Voltar</a>
+				</button>
+			</div>
+		</form>
+	</div>
 </div>
 {% endblock content %}

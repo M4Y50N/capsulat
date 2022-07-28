@@ -241,7 +241,6 @@ def updateRoom(request, pk):
         room.name = request.POST.get('name')
         room.classe = classe
         room.room_join=request.POST.get('room_join')
-        room.crypt_key = request.POST.get('crypt_key')
         room.desc = request.POST.get('desc')
         room.save()
         return redirect('home')
