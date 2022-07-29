@@ -217,6 +217,21 @@ def userProfile(request, pk):
 
     context = {'user': user, 'rooms': rooms,
                'room_messages': room_messages, 'classes': classes, 'recent_activity': recent_activity}
+    return render(request, 'base/user_posts.html', context)
+
+@login_required(login_url='login')
+def userConfig(request, pk):
+    user = User.objects.get(id=pk)
+
+    rooms = user.room_set.all()
+    room_messages = user.message_set.all().order_by('-created')
+
+    classes = Classe.objects.all()
+
+    recent_activity = room_messages[:6]
+
+    context = {'user': user, 'rooms': rooms,
+               'room_messages': room_messages, 'classes': classes, 'recent_activity': recent_activity}
     return render(request, 'base/profile.html', context)
 
 

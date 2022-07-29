@@ -1,16 +1,12 @@
 {% extends 'main.html' %}
 
 {% block content%}
+    <button><a href="{% url 'user-profile' user.id %}">Perfil</a></button>
+
     <div class="main-2-column main-container">
         <div>
-            {% include 'base/feed_component.html' %}
+            
         </div>
-        {% if user == request.user %}
-            <div>
-                {% include 'base/activity_component.html' %}
-            </div>
-        {% endif %}
     </div>
-    
 {% endblock content %}
 

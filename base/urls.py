@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path('profile/<str:pk>', views.userProfile, name="user-profile"),
+    path('user-config/<str:pk>', views.userConfig, name="user-config"),
     path('room-join/<str:pk>', views.joinRoom, name="join"),
     path('cryp/<str:pk>', views.nowCrypDecryp, name="cryp-decryp"),
     path('login/', views.loginPage, name="login"),
