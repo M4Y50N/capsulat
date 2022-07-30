@@ -1,5 +1,5 @@
-from pyexpat import model
 from django.db import models
+from django import forms
 from django.contrib.auth.models import User
 
 
@@ -16,9 +16,9 @@ class Room(models.Model):
     name = models.CharField(max_length=200)
     desc = models.TextField(null=True, blank=True)
     room_join = models.CharField(default='room', max_length=20)
-    data_control = models.DateField(default='2022-12-25', null=False)
     participants = models.ManyToManyField(
         User, related_name='participants', blank=True)
+    date_control = models.DateField(auto_now=True, null=False)
 
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
