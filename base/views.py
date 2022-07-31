@@ -10,14 +10,13 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Classe, Room, Message
 from .forms import RoomForm
 
-from datetime import datetime
+import datetime as dtTime
+from datetime import date, datetime
 from pytz import timezone
 
 # Criptografar string
 from simplecrypt import encrypt, decrypt
 
-# def convertDate(data_start = datetime.today, data_end = datetime.today):
-#     pass
 
 def timesince(dt, default="agora"):
     now = datetime.now()
@@ -64,45 +63,39 @@ def howLongAgo(datas):
 
 
 #função para criptografar
-@login_required(login_url='login')
-def nowCrypDecryp(request, pk):
+def nowCryp(request, pk):
     room = Room.objects.get(id=pk)
     key = room.crypt_key
     
-    if request.method == 'POST':
-        input_key = request.POST.get('cryp_key')
-        act = request.POST.get('act')
-        if input_key == room.crypt_key:
-            if act == 'cryp':
-                for msg in room.message_set.all():
-                    try:
-                        if type(eval(msg.body)) != bytes:
-                            c = encrypt(key, msg.body)
-                            msg.body = c
-                            msg.save()
-                    except:
-                        if type(msg.body) != bytes:
-                            c = encrypt(key, msg.body)
-                            msg.body = c
-                            msg.save()
-                return redirect('room', pk=room.id)
-            else:
-                for msg in room.message_set.all():
-                    try:
-                        if type(eval(msg.body)) == bytes:
-                            c = decrypt(key, eval(msg.body)).decode('utf-8')
-                            msg.body = c
-                            msg.save()
-                    except:
-                        if type(msg.body) == bytes:
-                            c = decrypt(key, eval(msg.body)).decode('utf-8')
-                            msg.body = c
-                            msg.save()
-                return redirect('room', pk=room.id)
-   
+    for msg in room.message_set.all():
+        try:
+            if type(eval(msg.body)) != bytes:
+                c = encrypt(key, msg.body)
+                msg.body = c
+                msg.save()
+        except:
+            if type(msg.body) != bytes:
+                c = encrypt(key, msg.body)
+                msg.body = c
+                msg.save()
+    
+    return 'crypted'
 
-    return render(request, 'base/cryp_key.html', {'obj': room})
+def nowDecryp(request, pk):
+    room = Room.objects.get(id=pk)
+    key = room.crypt_key
 
+    for msg in room.message_set.all():
+        try:
+            if type(eval(msg.body)) == bytes:
+                c = decrypt(key, eval(msg.body)).decode('utf-8')
+                msg.body = c
+                msg.save()
+        except:
+            if type(msg.body) == bytes:
+                c = decrypt(key, eval(msg.body)).decode('utf-8')
+                msg.body = c
+                msg.save()        
 
 def loginPage(request):
     page = 'login'
@@ -182,8 +175,17 @@ def home(request):
 
 @login_required(login_url='login')
 def room(request, pk):
-
     room = Room.objects.get(id=pk)
+    cryp_decryp = ''
+    
+    if room.date_control_end == datetime.today().date():
+        print('é agr')
+        nowDecryp(request, pk)
+    
+    elif room.date_control_initial == datetime.today().date():
+        cryp_decryp = nowCryp(request, pk)
+            
+
     room_messages = room.message_set.all().order_by('-created')
     participantes = room.participants.all()
     if request.method == 'POST':
@@ -197,7 +199,7 @@ def room(request, pk):
     howLongAgo(room_messages)
 
     context = {'room': room, 'room_messages': room_messages,
-               'participantes': participantes}
+               'participantes': participantes, 'cryp_decryp': cryp_decryp}
     return render(request, 'base/room.html', context)
 
 
@@ -234,7 +236,7 @@ def createRoom(request):
         classe_name = request.POST.get('classe')
         crypt_key = request.POST.get('crypt_key')
         date_control_initial = formatDate(request.POST.get('date_control_initial'), request)
-        print(date_control_initial)
+        date_control_end = formatDate(request.POST.get('date_control_end'), request)
         classe, created = Classe.objects.get_or_create(name=classe_name)
 
         Room.objects.create(
@@ -243,6 +245,7 @@ def createRoom(request):
             room_join=request.POST.get('room_join'),
             crypt_key=crypt_key,
             date_control_initial = date_control_initial,
+            date_control_end = date_control_end,
             name=request.POST.get('name'),
             desc=request.POST.get('desc'),
         )
@@ -262,10 +265,13 @@ def updateRoom(request, pk):
         classe_name = request.POST.get('classe')
         classe, created = Classe.objects.get_or_create(name=classe_name)
         date_control_initial = formatDate(request.POST.get('date_control_initial'), request)
+        date_control_end = formatDate(request.POST.get('date_control_end'), request)
+
         room.name = request.POST.get('name')
         room.classe = classe
         room.room_join=request.POST.get('room_join')
         room.date_control_initial = date_control_initial
+        room.date_control_end = date_control_end
         room.desc = request.POST.get('desc')
         room.save()
         return redirect('home')
