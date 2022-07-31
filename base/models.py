@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 from django import forms
 from django.contrib.auth.models import User
@@ -18,13 +19,15 @@ class Room(models.Model):
     room_join = models.CharField(default='room', max_length=20)
     participants = models.ManyToManyField(
         User, related_name='participants', blank=True)
-    date_control = models.DateField(auto_now=True, null=False)
 
+    date_control_initial = models.DateField(default=datetime.today, null=False)
+    date_control_end = models.DateField(blank=True, null=True)
+    
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
-    created_in = models.TextField(default='capsulat', blank=True)
-    crypt_key = models.CharField(max_length=23)
+    created_in = models.TextField(blank=True)
+    crypt_key = models.CharField(default='capsulat',  max_length=23)
 
     class Meta:
         ordering = ['-updated', '-created']

@@ -1,3 +1,4 @@
+from email.utils import formatdate
 from sqlite3 import Date
 from django.shortcuts import redirect, render
 from django.contrib import messages
@@ -7,7 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from .models import Classe, Room, Message
-from .forms import RoomForm, DateControl
+from .forms import RoomForm
 
 from datetime import datetime
 from pytz import timezone
@@ -28,7 +29,7 @@ def timesince(dt, default="agora"):
         (diff.days, "dia", "dias"),
         (diff.seconds // 3600, "hora", "horas"),
         (diff.seconds // 60, "minuto", "minutos"),
-        (diff.seconds - 30, "segundo", "segundos"),
+        (diff.seconds, "segundo", "segundos"),
     )
     for period, singular, plural in periods:
         if period >= 1:
@@ -215,15 +216,25 @@ def userProfile(request, pk):
                'room_messages': room_messages, 'classes': classes, 'recent_activity': recent_activity}
     return render(request, 'base/profile.html', context)
 
+def formatDate(date_p, request):
+    if len(date_p.split('/')) == 3:
+        new_str = []
+        for i in date_p.split('/'):
+            new_str.append(i)
+        return '-'.join(list(reversed(new_str)))
+    else:
+        return messages.error(request, "Data invalida")
 
 @login_required(login_url='login')
 def createRoom(request):
     form = RoomForm()
-    form_date = DateControl()
+ 
     classes = Classe.objects.all()
     if request.method == 'POST':
         classe_name = request.POST.get('classe')
         crypt_key = request.POST.get('crypt_key')
+        date_control_initial = formatDate(request.POST.get('date_control_initial'), request)
+        print(date_control_initial)
         classe, created = Classe.objects.get_or_create(name=classe_name)
 
         Room.objects.create(
@@ -231,13 +242,14 @@ def createRoom(request):
             classe=classe,
             room_join=request.POST.get('room_join'),
             crypt_key=crypt_key,
+            date_control_initial = date_control_initial,
             name=request.POST.get('name'),
             desc=request.POST.get('desc'),
         )
 
         return redirect('home')
 
-    context = {'form': form, 'form_date': form_date,'classes': classes}
+    context = {'form': form, 'classes': classes}
     return render(request, 'base/room_form.html', context)
 
 
@@ -249,9 +261,11 @@ def updateRoom(request, pk):
     if request.method == 'POST':
         classe_name = request.POST.get('classe')
         classe, created = Classe.objects.get_or_create(name=classe_name)
+        date_control_initial = formatDate(request.POST.get('date_control_initial'), request)
         room.name = request.POST.get('name')
         room.classe = classe
         room.room_join=request.POST.get('room_join')
+        room.date_control_initial = date_control_initial
         room.desc = request.POST.get('desc')
         room.save()
         return redirect('home')
