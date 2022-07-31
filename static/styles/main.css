@@ -288,8 +288,15 @@ h6 {
 	text-decoration: underline;
 	color: rgba(0, 0, 0, 0.6);
 }
+
+.msg-img{
+	width: 25px;
+	height: 25px;
+}
+
 .profile-section .profile-image {
-	max-width: 160px;
+	width: 160px;
+	height: 160px;
 }
 .profile-section .bio {
 	font-size: 0.875rem;

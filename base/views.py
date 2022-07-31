@@ -4,11 +4,9 @@ from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
-from .models import Classe, Room, Message
-from .forms import RoomForm
+from .models import Classe, Room, Message, User
+from .forms import RoomForm, UserForm, UserRegisterForm
 
 import datetime as dtTime
 from datetime import date, datetime
@@ -43,7 +41,7 @@ def howLongAgo(datas):
 
         data_e_hora_sao_paulo = wasCreated.astimezone(fuso_horario)
         wasCreated_format = data_e_hora_sao_paulo.strftime(
-            "%d/%m/%Y %H:%M")
+            "%d/%m/%Y %H:%M:%S")
 
         data_created, hour_created = wasCreated_format.split(' ')
 
@@ -57,8 +55,9 @@ def howLongAgo(datas):
         # hora minuto
         h = int(hour_created.split(':')[0])
         mi = int(hour_created.split(':')[1])
+        s = int(hour_created.split(':')[2])
 
-        data.created_in = timesince(datetime(y, m, d, h, mi, 0))
+        data.created_in = timesince(datetime(y, m, d, h, mi, s))
         data.save()
 
 
@@ -103,15 +102,15 @@ def loginPage(request):
         return redirect('home')
 
     if request.method == 'POST':
-        username = request.POST.get("username").lower()
+        email = request.POST.get("email").lower()
         password = request.POST.get("password")
 
         try:
-            user = User.objects.get(username=username)
+            user = User.objects.get(email=email)
         except:
             messages.error(request, 'Usuário não existe!')
 
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(request, email=email, password=password)
 
         if user is not None:
             login(request, user)
@@ -130,9 +129,9 @@ def logoutUser(request):
 
 def registerPage(request):
     page = 'register'
-    form = UserCreationForm()
+    form = UserRegisterForm()
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = UserRegisterForm(request.POST)
         if form.is_valid():
             if form.is_valid():
                 user = form.save(commit=False)
@@ -216,7 +215,20 @@ def userProfile(request, pk):
 
     context = {'user': user, 'rooms': rooms,
                'room_messages': room_messages, 'classes': classes, 'recent_activity': recent_activity}
-    return render(request, 'base/profile.html', context)
+    return render(request, 'base/user_posts.html', context)
+
+@login_required(login_url='login')
+def userConfig(request):
+    user = request.user
+    form = UserForm(instance=user)
+
+    if request.method == 'POST':
+        form = UserForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('user-profile', pk=user.id)
+
+    return render(request, 'base/profile.html', {'form': form})
 
 def formatDate(date_p, request):
     if len(date_p.split('/')) == 3:
