@@ -14,13 +14,8 @@ from pytz import timezone
 # Criptografar string
 from simplecrypt import encrypt, decrypt
 
-# m = 'mayson'
-# k = Fernet.generate_key()
-# fernet = Fernet(k)
-
-# l = fernet.encrypt(m.encode())
-
-# print(k)
+def convertDate(data_start = datetime.today, data_end = datetime.today):
+    pass
 
 def timesince(dt, default="agora"):
     now = datetime.now()
