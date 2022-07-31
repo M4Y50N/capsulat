@@ -7,13 +7,15 @@
 <div class="main-container main-2-column">
 	<div class="comment-container">
 		<div>
-			<div class="d-flex align-items-center">
+			<div class="d-flex align-items-center mb-3">
 				<h2 class="mb-0" >Sala - {{room.name}}</h2>
+				{% if request.user == room.host %}
 				<div class="ml-auto pr-3">
 					<button class="btn btn-primary">
 						<a class="text-decoration-none text-white" href="{% url 'cryp-decryp' room.id%}">Criptografia</a>
 					</button>
 				</div>
+				{% endif %}
 			</div>
 			<p>{{room.desc}}</p>
 			
