@@ -1,4 +1,3 @@
-from cProfile import label
 from datetime import datetime
 from django.db import models
 
@@ -8,7 +7,7 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     name = models.CharField(max_length=200, null=True)
     email = models.EmailField(unique=True)
-    bio = models.TextField(null=True)
+    bio = models.TextField(default='')
 
     avatar = models.ImageField(null=True, default="profile.png")
 
@@ -38,7 +37,6 @@ class Room(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     created_in = models.TextField(blank=True)
-    crypt_key = models.CharField(default='capsulat',  max_length=23)
 
     class Meta:
         ordering = ['-updated', '-created']

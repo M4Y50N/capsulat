@@ -1,4 +1,3 @@
-from sqlite3 import Date
 from django.forms import ModelForm
 from django.forms import DateInput
 from django.contrib.auth.forms import UserCreationForm

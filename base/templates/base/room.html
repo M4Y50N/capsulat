@@ -10,7 +10,7 @@
 			<div class="d-flex align-items-center mb-3 justify-content-between">
 				<h2 class="mb-0" >Sala - {{room.name}}</h2>
 				<div class="mr-5">
-					<img class="msg-img rounded-circle m-0" src="{{user.avatar.url}}" alt="image" >			
+					<img class="msg-img rounded-circle m-0" src="{{room.host.avatar.url}}" alt="image" >			
 					<a class="mr-2" href="{% url 'user-profile' room.host.id%}">@{{room.host.username}}</a> {{message.created_in}}
 				</div>
 			</div>
@@ -26,32 +26,22 @@
 						<div>
 							{% if request.user == message.user %}
 								<a href="{% url 'delete-message' message.id %}">Delete</a>
-<<<<<<< HEAD
-								<small><a href="{% url 'user-profile' message.user.id %}">@{{message.user}}</a> {{message.created_in}}</small>
-=======
 								<small class="d-flex align-items-center mb-2">
 									<img class="msg-img rounded-circle m-0 mr-1" src="{{user.avatar.url}}" alt="image" >			
 									<a class="mr-2" href="{% url 'user-profile' message.user.id %}">@{{message.user.username}}</a> {{message.created_in}}
 								</small>
->>>>>>> perfil-page
 								<p>{{message.body}}</p>
 							{% endif %}
 						</div>
 						{% endfor %}
 					{% else %} 	
 						{% for message in room_messages %}
-<<<<<<< HEAD
-							<div>
-								<a href="{% url 'delete-message' message.id %}">Delete</a>
-								<small><a href="{% url 'user-profile' message.user.id %}">@{{message.user}}</a> {{message.created_in}}</small>
-=======
 							<div class="d-flex flex-column">
 								<a href="{% url 'delete-message' message.id %}">Delete</a>
 								<small class="d-flex align-items-center mb-2">
 									<img class="msg-img rounded-circle m-0 mr-1" src="{{user.avatar.url}}" alt="image" >			
 									<a class="mr-2" href="{% url 'user-profile' message.user.id %}">@{{message.user.username}}</a> {{message.created_in}}
 								</small>
->>>>>>> perfil-page
 								<p>{{message.body}}</p>
 							</div>
 						{% endfor %}
@@ -62,14 +52,10 @@
 						<div>
 							{% if request.user == message.user %}
 								<a href="{% url 'delete-message' message.id %}">Delete</a>
-<<<<<<< HEAD
-								<small><a href="{% url 'user-profile' message.user.id %}">@{{message.user}}</a> {{message.created_in}}</small>
-=======
 								<small class="d-flex align-items-center mb-2">
 									<img class="msg-img rounded-circle m-0 mr-1" src="{{user.avatar.url}}" alt="image" >			
 									<a class="mr-2" href="{% url 'user-profile' message.user.id %}">@{{message.user.username}}</a> {{message.created_in}}
 								</small>
->>>>>>> perfil-page
 								<p>$©R1P7ØGR4/=4|)4#</p>
 							{% endif %}
 						</div>
@@ -78,14 +64,10 @@
 						{% for message in room_messages %}
 							<div>
 								<a href="{% url 'delete-message' message.id %}">Delete</a>
-<<<<<<< HEAD
-								<small><a href="{% url 'user-profile' message.user.id %}">@{{message.user}}</a> {{message.created_in}}</small>
-=======
 								<small class="d-flex align-items-center mb-2">
 									<img class="msg-img rounded-circle m-0 mr-1" src="{{user.avatar.url}}" alt="image" >			
 									<a class="mr-2" href="{% url 'user-profile' message.user.id %}">@{{message.user.username}}</a> {{message.created_in}}
 								</small>
->>>>>>> perfil-page
 								<p>$©R1P7ØGR4/=4|)4#</p>
 							</div>
 						{% endfor %}

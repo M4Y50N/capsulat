@@ -1,5 +1,3 @@
-from email.utils import formatdate
-from sqlite3 import Date
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
