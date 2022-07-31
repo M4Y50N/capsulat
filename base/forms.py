@@ -1,5 +1,6 @@
+from sqlite3 import Date
 from django.forms import ModelForm
-from django import forms
+from django.forms import DateInput
 from .models import Room
 
 
@@ -8,6 +9,6 @@ class RoomForm(ModelForm):
         model = Room
         fields = '__all__'
         exclude = ['host', 'participants']
-
-class DateControl(forms.Form):
-    date_field = forms.DateField()
+        widgets = {
+            'date_control_initial': DateInput()
+        }

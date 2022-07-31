@@ -29,7 +29,7 @@
 
             <div class="form__group mb-3 w-100">
               
-              <label  for="room_name">Código para acessar a sala</label>
+              <label  for="room_join">Código para acessar a sala</label>
               
               <div class="form-control2">
                 {{form.room_join}}
@@ -38,7 +38,7 @@
 
             <div class="form__group mb-3 w-100">
               
-              <label  for="room_name">Chave para Criptografia</label>
+              <label  for="room_crypt_key">Chave para Criptografia</label>
               
               <div class="form-control2">
                 {{form.crypt_key}}
@@ -46,11 +46,12 @@
             </div>
             <div class="form__group mb-3 w-100">
               
-              <label  for="room_name">Insira um período de data</label>
-              <small>Exemplo: 2022-10-1, 2022-11-1</small>
+              <label  for="room_date_control_initial">Insira um período de data</label>
+              <small>Exemplo: Início 2022-07-31 | Fim 10/02/2022</small>
               
               <div class="form-control2">
-                {{form.data_control}}
+                {{form.date_control_initial}}
+                {{form.date_control_end}}
               </div>
             </div>
 
