@@ -1,5 +1,3 @@
-from email.utils import formatdate
-from sqlite3 import Date
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -8,7 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from .models import Classe, Room, Message
-from .forms import RoomForm
+from .forms import RoomForm, UserForm
 
 import datetime as dtTime
 from datetime import date, datetime
@@ -219,19 +217,17 @@ def userProfile(request, pk):
     return render(request, 'base/user_posts.html', context)
 
 @login_required(login_url='login')
-def userConfig(request, pk):
-    user = User.objects.get(id=pk)
+def userConfig(request):
+    user = request.user
+    form = UserForm(instance=user)
 
-    rooms = user.room_set.all()
-    room_messages = user.message_set.all().order_by('-created')
+    if request.method == 'POST':
+        form = UserForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('user-profile', pk=user.id)
 
-    classes = Classe.objects.all()
-
-    recent_activity = room_messages[:6]
-
-    context = {'user': user, 'rooms': rooms,
-               'room_messages': room_messages, 'classes': classes, 'recent_activity': recent_activity}
-    return render(request, 'base/profile.html', context)
+    return render(request, 'base/profile.html', {'form': form})
 
 def formatDate(date_p, request):
     if len(date_p.split('/')) == 3:

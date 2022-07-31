@@ -1,9 +1,9 @@
 {% extends 'main.html' %}
 
 {% block content%}
-    <button><a href="{% url 'user-config' user.id %}">Configuração</a></button>
     <div class="main-2-column main-container">
         <div>
+            <button class="btn btn-primary"><a class="text-white text-decoration-none" href="{% url 'user-config' %}">Editar Perfil</a></button>
             {% include 'base/feed_component.html' %}
         </div>
         {% if user == request.user %}

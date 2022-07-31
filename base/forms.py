@@ -1,7 +1,10 @@
-from sqlite3 import Date
+from curses.ascii import US
+from dataclasses import fields
 from django.forms import ModelForm
 from django.forms import DateInput
 from .models import Room
+from django.contrib.auth.models import User
+
 
 
 class RoomForm(ModelForm):
@@ -12,3 +15,9 @@ class RoomForm(ModelForm):
         widgets = {
             'date_control_initial': DateInput()
         }
+
+class UserForm(ModelForm):
+
+    class Meta:
+        model = User
+        fields = ['username', 'email']
