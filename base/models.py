@@ -1,3 +1,4 @@
+from cProfile import label
 from datetime import datetime
 from django.db import models
 
@@ -8,6 +9,8 @@ class User(AbstractUser):
     name = models.CharField(max_length=200, null=True)
     email = models.EmailField(unique=True)
     bio = models.TextField(null=True)
+
+    avatar = models.ImageField(null=True, default="profile.png")
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

@@ -6,10 +6,10 @@
             <button class="btn btn-primary"><a class="text-white text-decoration-none"href="{% url 'user-profile' user.id %}">Perfil</a></button>
             <div class="main-container content py-5">
                 <div class="form__group">
-                    <form action="" method="POST">
+                    <form action="" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                         {% for field in form %}
-                        <div>
+                        <div class="mb-3">
                             {{field.label}}
                             {{field}}
                         </div>

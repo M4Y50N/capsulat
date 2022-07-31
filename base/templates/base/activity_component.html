@@ -5,7 +5,7 @@
 	{% for message in recent_activity%}
 	<div>
 		<small
-			><a href="{% url 'user-profile' message.user.id%}">@{{message.user}} </a>
+			><a href="{% url 'user-profile' message.user.id%}">@{{message.user.username}} </a>
 			{{message.created_in}}</small
 		>
 		<small>Respondido em "{{message.room}}"</small>
