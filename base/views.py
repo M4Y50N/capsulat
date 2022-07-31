@@ -1,3 +1,4 @@
+from sqlite3 import Date
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -6,7 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from .models import Classe, Room, Message
-from .forms import RoomForm
+from .forms import RoomForm, DateControl
 
 from datetime import datetime
 from pytz import timezone
@@ -14,8 +15,8 @@ from pytz import timezone
 # Criptografar string
 from simplecrypt import encrypt, decrypt
 
-def convertDate(data_start = datetime.today, data_end = datetime.today):
-    pass
+# def convertDate(data_start = datetime.today, data_end = datetime.today):
+#     pass
 
 def timesince(dt, default="agora"):
     now = datetime.now()
@@ -233,6 +234,7 @@ def userConfig(request, pk):
 @login_required(login_url='login')
 def createRoom(request):
     form = RoomForm()
+    form_date = DateControl()
     classes = Classe.objects.all()
     if request.method == 'POST':
         classe_name = request.POST.get('classe')
@@ -250,7 +252,7 @@ def createRoom(request):
 
         return redirect('home')
 
-    context = {'form': form, 'classes': classes}
+    context = {'form': form, 'form_date': form_date,'classes': classes}
     return render(request, 'base/room_form.html', context)
 
 
