@@ -1,9 +1,7 @@
-from curses.ascii import US
-from dataclasses import fields
 from django.forms import ModelForm
 from django.forms import DateInput
-from .models import Room
-from django.contrib.auth.models import User
+from .models import Room, User
+
 
 
 
