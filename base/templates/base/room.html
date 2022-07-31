@@ -9,13 +9,6 @@
 		<div>
 			<div class="d-flex align-items-center mb-3">
 				<h2 class="mb-0" >Sala - {{room.name}}</h2>
-				{% if request.user == room.host %}
-				<div class="ml-auto pr-3">
-					<button class="btn btn-primary">
-						<a class="text-decoration-none text-white" href="{% url 'cryp-decryp' room.id%}">Criptografia</a>
-					</button>
-				</div>
-				{% endif %}
 			</div>
 			<p>{{room.desc}}</p>
 			
@@ -23,27 +16,50 @@
 		</div>
 		<div class="comment-wrapper p-3 mr-2">
 			<div>
-				{% if request.user != room.host %}
-					{% for message in room_messages %}
-					<div>
-						{% if request.user == message.user %}
-							<a href="{% url 'delete-message' message.id %}">Delete</a>
-							<small><a href="{% url 'user-profile' message.user.id %}">@{{message.user}}</a> {{message.created_in}}</small>
-							<p>{{message.body}}</p>
-						{% endif %}
-					</div>
-					{% endfor %}
-				{% else %} 	
-					{% for message in room_messages %}
+				{% if cryp_decryp != 'crypted' %}
+					{% if request.user != room.host %}
+						{% for message in room_messages %}
 						<div>
-							<a href="{% url 'delete-message' message.id %}">Delete</a>
-							<small><a href="{% url 'user-profile' message.user.id %}">@{{message.user}}</a> {{message.created_in}}</small>
-							<p>{{message.body}}	
+							{% if request.user == message.user %}
+								<a href="{% url 'delete-message' message.id %}">Delete</a>
+								<small><a href="{% url 'user-profile' message.user.id %}">@{{message.user}}</a> {{message.created_in}}</small>
+								<p>{{message.body}}</p>
+							{% endif %}
 						</div>
-					{% endfor %}
+						{% endfor %}
+					{% else %} 	
+						{% for message in room_messages %}
+							<div>
+								<a href="{% url 'delete-message' message.id %}">Delete</a>
+								<small><a href="{% url 'user-profile' message.user.id %}">@{{message.user}}</a> {{message.created_in}}</small>
+								<p>{{message.body}}</p>
+							</div>
+						{% endfor %}
+					{% endif %}
+				{% else %}
+					{% if request.user != room.host %}
+						{% for message in room_messages %}
+						<div>
+							{% if request.user == message.user %}
+								<a href="{% url 'delete-message' message.id %}">Delete</a>
+								<small><a href="{% url 'user-profile' message.user.id %}">@{{message.user}}</a> {{message.created_in}}</small>
+								<p>$©R1P7ØGR4/=4|)4#</p>
+							{% endif %}
+						</div>
+						{% endfor %}
+					{% else %} 	
+						{% for message in room_messages %}
+							<div>
+								<a href="{% url 'delete-message' message.id %}">Delete</a>
+								<small><a href="{% url 'user-profile' message.user.id %}">@{{message.user}}</a> {{message.created_in}}</small>
+								<p>$©R1P7ØGR4/=4|)4#</p>
+							</div>
+						{% endfor %}
+					{% endif %}
 				{% endif %}
 			</div>
 		</div>
+		{% if cryp_decryp != 'crypted' %}
 		<div class="mt-3">
 			<form action="" method="post">
 				{% csrf_token %}
@@ -60,6 +76,7 @@
 				</div>
 			</form>
 		</div>
+		{% endif %}
 	</div>
 	<div class="container">
 		<h3>Participantes</h3>
