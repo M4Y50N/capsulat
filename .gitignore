@@ -3,5 +3,5 @@
 /.pnp
 .pnp.js
 
-*/__pycache__
+capsulat/base/__pycache__
 *.pyc
