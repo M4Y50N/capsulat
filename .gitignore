@@ -3,5 +3,9 @@
 /.pnp
 .pnp.js
 
-*/__pycache__
+__pycache__
+base/__pycache__
+capsulat/__pycache__
+locale/pt_BR/LC_MESSAGES
+locale_extra/pt-BR/LC_MESSAGES 
 *.pyc
