@@ -3,5 +3,5 @@
 /.pnp
 .pnp.js
 
-__pycache__
+*/__pycache__
 *.pyc
